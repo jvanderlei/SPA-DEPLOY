@@ -26,7 +26,7 @@ export function Pomodoro({ setShowSettings }: PomodoroProps) {
   }
 
   function initPomodoro() {
-    secondsLeftRef.current = settingsInfo?.workMinutes * 60;
+    secondsLeftRef.current = settingsInfo?.workMinutes || 0 * 60;
     setSecondsLeft(secondsLeftRef.current);
   }
 
@@ -35,7 +35,7 @@ export function Pomodoro({ setShowSettings }: PomodoroProps) {
 
     function switchMode() {
       const nextMode = modeRef.current == "work" ? "break" : "work";
-      const nextSeconds = (nextMode === 'work' ? settingsInfo?.workMinutes: settingsInfo?.breakMinutes) * 60
+      const nextSeconds = (nextMode === 'work' ? settingsInfo?.workMinutes: settingsInfo?.breakMinutes) || 0 * 60
       setMode(nextMode);
       modeRef.current = nextMode
       setSecondsLeft(nextSeconds);
@@ -58,14 +58,14 @@ export function Pomodoro({ setShowSettings }: PomodoroProps) {
 
   const totalSeconds =
     mode === "work"
-      ? settingsInfo?.workMinutes * 60
-      : settingsInfo?.breakMinutes * 60;
+      ? settingsInfo?.workMinutes || 0 * 60
+      : settingsInfo?.breakMinutes || 0 * 60;
   
   const percentage = Math.round(secondsLeft / totalSeconds) * 100;
 
   const minutes = Math.floor(secondsLeft / 60);
   let seconds = secondsLeft % 60;
-  if (seconds < 10) seconds = "0" + seconds;
+  // if (seconds < 10) seconds = "0" + seconds;
 
   return (
     <div className="pt-12 w-80 m-auto text-center">
