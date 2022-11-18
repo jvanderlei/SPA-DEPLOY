@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "start": "node build/index.js",
+    "postinstall": "npm run build",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
