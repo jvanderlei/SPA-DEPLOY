@@ -26,6 +26,8 @@ export function FeedbackContentStep({
       onFeedbackSent()
     }
 
+
+  // {if feedbackTypeInfo.title === "Me pague um café"}
   return (
     <>
       <header>

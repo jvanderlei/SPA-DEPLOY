@@ -6,4 +6,4 @@ type SettingsContextType = {
     setBreakMinutes: (breakMinutes: number) => void
 }
 
-export const SettingsContext = react.createContext<SettingsContextType | null>(null)
+export const SettingsContext = react.createContext<SettingsContextType>({} as SettingsContextType)

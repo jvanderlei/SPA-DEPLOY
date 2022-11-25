@@ -30,6 +30,13 @@ export const feedbackTypes = {
       alt: "Imagem de uma nuvem",
     },
   },
+  // COFFEE: {
+  //   title: "Me pague um café",
+  //   image: {
+  //     src: coffeeImageUrl,
+  //     alt: "Imagem de uma xicara de café"
+  //   }
+  // }
 };
 
 export type FeedbackType = keyof typeof feedbackTypes;

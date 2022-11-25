@@ -26,7 +26,7 @@ export function Pomodoro({ setShowSettings }: PomodoroProps) {
   }
 
   function initPomodoro() {
-    secondsLeftRef.current = settingsInfo?.workMinutes || 0 * 60;
+    secondsLeftRef.current = settingsInfo?.workMinutes * 60;
     setSecondsLeft(secondsLeftRef.current);
   }
 
@@ -35,12 +35,13 @@ export function Pomodoro({ setShowSettings }: PomodoroProps) {
 
     function switchMode() {
       const nextMode = modeRef.current == "work" ? "break" : "work";
-      const nextSeconds = (nextMode === 'work' ? settingsInfo?.workMinutes: settingsInfo?.breakMinutes) || 0 * 60
+      const nextSeconds = (nextMode === 'work' ? settingsInfo?.workMinutes: settingsInfo?.breakMinutes) * 60
       setMode(nextMode);
       modeRef.current = nextMode
       setSecondsLeft(nextSeconds);
       secondsLeftRef.current = nextSeconds
     }
+
 
     const interval = setInterval(() => {
       if (isPausedRef.current) {
@@ -51,18 +52,17 @@ export function Pomodoro({ setShowSettings }: PomodoroProps) {
       }
 
       tick();
-    }, 1);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [settingsInfo]);
 
   const totalSeconds =
     mode === "work"
-      ? settingsInfo?.workMinutes || 0 * 60
-      : settingsInfo?.breakMinutes || 0 * 60;
+      ? settingsInfo?.workMinutes  * 60
+      : settingsInfo?.breakMinutes * 60;
   
-  const percentage = Math.round(secondsLeft / totalSeconds) * 100;
-
+  let percentage = secondsLeft / totalSeconds * 100;
   const minutes = Math.floor(secondsLeft / 60);
   let seconds = secondsLeft % 60;
   // if (seconds < 10) seconds = "0" + seconds;
@@ -75,8 +75,13 @@ export function Pomodoro({ setShowSettings }: PomodoroProps) {
           pathColor: mode === "work" ? "#8257e6" : "green",
           trailColor: "rgba(255, 255, 255, 0.5)",
         })}
-        value={percentage}
-        text={minutes + ":" + seconds}
+        value={Math.round(percentage)}
+        text={
+          seconds < 10 && minutes < 10 ? `0${minutes}:0${seconds}`
+          : seconds < 10 && minutes >= 10 ? `${minutes}:0${seconds}`
+          : seconds >= 10 && minutes < 10 ? `0${minutes}:${seconds}`
+          : `${minutes}:${seconds}`
+        }
       />
       <div>
         {isPaused ? (
